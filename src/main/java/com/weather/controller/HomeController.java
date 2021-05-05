@@ -25,8 +25,9 @@ public class HomeController {
     @RequestMapping("weather")
 	public String weatherApi(Model model,@ModelAttribute("weatherVO")WeatherVO weatherVO) throws Exception {
 		StringBuilder urlBuilder = new StringBuilder(BASE_URL);
-		try {
-			    urlBuilder.append("?" + URLEncoder.encode("lat", "UTF-8") + "=35");
+		try {	
+				urlBuilder.append("?" + URLEncoder.encode("q", "UTF-8") + "=seoul");
+			    urlBuilder.append("&" + URLEncoder.encode("lat", "UTF-8") + "=35");
 			    urlBuilder.append("&" + URLEncoder.encode("lon", "UTF-8") + "=139");
 			    urlBuilder.append("&" + URLEncoder.encode("appid", "UTF-8") + "=" + apiKey);
 			    urlBuilder.append("&" + URLEncoder.encode("lang", "UTF-8") + "=kr");

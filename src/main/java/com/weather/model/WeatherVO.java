@@ -28,7 +28,8 @@ public class WeatherVO {
 	  private Rain rain;
 
 	  private Snow snow;
-
+	  
+	  private Sys sys;
 	  /** 가시성 */
 	  private int visibility;
 
