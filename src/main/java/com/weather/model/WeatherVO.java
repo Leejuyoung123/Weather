@@ -1,12 +1,11 @@
 package com.weather.model;
 
-import java.net.URLEncoder;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.ui.Model;
-import org.springframework.web.client.RestTemplate;
 
 import lombok.Data;
 
@@ -15,8 +14,9 @@ import lombok.Data;
 @ComponentScan
 public class WeatherVO {
 	  private List<Weather> weather;
-
-	  /** 내부 매개 변수 */
+	  
+	  private final LocalDateTime date;
+	  /** �궡遺� 留ㅺ컻 蹂��닔 */
 	  private String base;
 
 	  private Main main;
@@ -30,105 +30,112 @@ public class WeatherVO {
 	  private Snow snow;
 	  
 	  private Sys sys;
-	  /** 가시성 */
+	  
+	  private Dt_txt dt_txt;
+	  /** 媛��떆�꽦 */
 	  private int visibility;
 
-	  /** 데이터 계산 시간, 유닉스, UTC */
+	  /** �뜲�씠�꽣 怨꾩궛 �떆媛�, �쑀�땳�뒪, UTC */
 	  private long dt;
+	  
 
-	  /** UTC에서 초 단위로 이동 */
+
+	  /** UTC�뿉�꽌 珥� �떒�쐞濡� �씠�룞 */
 	  private int timezone;
 
-	  /** 도시 ID */
+	  /** �룄�떆 ID */
 	  private long id;
 
-	  /** 도시 이름 */
+	  /** �룄�떆 �씠由� */
 	  private String name;
 
-	  /** 내부 매개 변수 */
+	  /** �궡遺� 留ㅺ컻 蹂��닔 */
 	  private int cod;
 
 	  @Data
 	  public static class Weather {
 
-	    /** 기상 조건 ID */
+	    /** 湲곗긽 議곌굔 ID */
 	    private int id;
 
-	    /** 날씨 매개 변수 그룹 (비, 눈, 극한 등) */
+	    /** �궇�뵪 留ㅺ컻 蹂��닔 洹몃９ (鍮�, �늿, 洹뱁븳 �벑) */
 	    private String main;
 
-	    /** 그룹 내 날씨 조건 */
+	    /** 洹몃９ �궡 �궇�뵪 議곌굔 */
 	    private String description;
 
-	    /** 날씨 아이콘 ID */
+	    /** �궇�뵪 �븘�씠肄� ID */
 	    private String icon;
+	    
+		private LocalDate date = LocalDate.now(); 
+		
 	  }
 
 	  @Data
 	  public static class Main {
 
-	    /** 온도. 단위 기본값 : 켈빈, 미터법 : 섭씨, 임페리얼 : 화씨 */
+	    /** �삩�룄. �떒�쐞 湲곕낯媛� : 耳덈퉰, 誘명꽣踰� : �꽠�뵪, �엫�럹由ъ뼹 : �솕�뵪 */
 	    private float temp;
 
-	    /** 온도. 단위 기본값 : 켈빈, 미터법 : 섭씨, 임페리얼 : 화씨 */
+	    /** �삩�룄. �떒�쐞 湲곕낯媛� : 耳덈퉰, 誘명꽣踰� : �꽠�뵪, �엫�럹由ъ뼹 : �솕�뵪 */
 	    private float feels_like;
 
-	    /** 현재 최저 온도.(대규모 대도시 및 도시 지역 내) */
+	    /** �쁽�옱 理쒖� �삩�룄.(��洹쒕え ���룄�떆 諛� �룄�떆 吏��뿭 �궡) */
 	    private float temp_min;
 
-	    /** 현재 최대 온도.(대규모 대도시 및 도시 지역 내)*/
+	    /** �쁽�옱 理쒕� �삩�룄.(��洹쒕え ���룄�떆 諛� �룄�떆 吏��뿭 �궡)*/
 	    private float temp_max;
 
-	    /** 대기압 (해수면, 해수면 또는 grnd_level 데이터가 없는 경우), hPa */
+	    /** ��湲곗븬 (�빐�닔硫�, �빐�닔硫� �삉�뒗 grnd_level �뜲�씠�꽣媛� �뾾�뒗 寃쎌슦), hPa */
 	    private int pressure;
 
-	    /** 습도, % */
+	    /** �뒿�룄, % */
 	    private float humidity;
 
-	    /** 해수면의 대기압, hPa */
+	    /** �빐�닔硫댁쓽 ��湲곗븬, hPa */
 	    private float sea_level;
 
-	    /** 지면에서의 대기압, hPa */
+	    /** 吏�硫댁뿉�꽌�쓽 ��湲곗븬, hPa */
 	    private float grnd_level;
 	  }
 
 	  @Data
 	  public static class Wind {
 
-	    /** 바람의 속도. 단위 기본값 : meter/sec, 미터법 : meter/sec, 임페리얼 : miles/hour */
+	    /** 諛붾엺�쓽 �냽�룄. �떒�쐞 湲곕낯媛� : meter/sec, 誘명꽣踰� : meter/sec, �엫�럹由ъ뼹 : miles/hour */
 	    private float speed;
 
-	    /** 풍향,도 (기상) */
+	    /** �뭾�뼢,�룄 (湲곗긽) */
 	    private int deg;
 
-	    /**  바람 돌풍. 단위 기본값 : meter/sec, 미터법 : meter/sec, 임페리얼 : miles/hour */
+	    /**  諛붾엺 �룎�뭾. �떒�쐞 湲곕낯媛� : meter/sec, 誘명꽣踰� : meter/sec, �엫�럹由ъ뼹 : miles/hour */
 	    private float gust;
 	  }
 
 	  @Data
 	  public static class Clouds {
 
-	    /** 흐림, % */
+	    /** �쓲由�, % */
 	    private int all;
 	  }
 
 	  @Data
 	  public static class Rain {
 
-	    /** 지난 1 시간 동안의 강우량, mm */
+	    /** 吏��궃 1 �떆媛� �룞�븞�쓽 媛뺤슦�웾, mm */
 	    private float rain1h;
 
-	    /** 지난 3 시간 동안의 강우량, mm */
+	    /** 吏��궃 3 �떆媛� �룞�븞�쓽 媛뺤슦�웾, mm */
 	    private float rain3h;
 	  }
 
 	  @Data
 	  public static class Snow {
 
-	    /** 지난 1 시간 동안의 눈량, mm */
+	    /** 吏��궃 1 �떆媛� �룞�븞�쓽 �늿�웾, mm */
 	    private float snow1h;
 
-	    /** 지난 3 시간 동안의 눈량, mm */
+	    /** 吏��궃 3 �떆媛� �룞�븞�쓽 �늿�웾, mm */
 	    private float snow3h;
 	  }
 
@@ -139,13 +146,18 @@ public class WeatherVO {
 
 	    private int id;
 
-	    /** 국가 코드 (GB, JP 등) */
+	    /** 援�媛� 肄붾뱶 (GB, JP �벑) */
 	    private String country;
 
-	    /** 일출 시간, 유닉스, UTC */
+	    /** �씪異� �떆媛�, �쑀�땳�뒪, UTC */
 	    private long sunrise;
 
-	    /** 일몰 시간, 유닉스, UTC */
+	    /** �씪紐� �떆媛�, �쑀�땳�뒪, UTC */
 	    private long sunset;
 	  }
+	  @Data
+	  public static class Dt_txt {
+		  private Date dt_txt;
+	  }
+
 }
